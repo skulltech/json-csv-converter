@@ -13,5 +13,14 @@ def json_to_csv(json_file):
 		for elem in jsn:
 			writer.writerow(elem)
 
-filename = input('Enter filename of JSON file: ')
-json_to_csv(filename)
+def csv_to_json(csv_file):
+	with open(csv_file, 'r') as csvfile, open('output.json', 'w') as jsonfile:
+		reader = csv.DictReader(csvfile)
+		jsn = []
+		for row in reader:
+			jsn += [row]
+
+		json.dump(jsn, jsonfile)
+		
+filename = input('Enter filename of CSV file: ')
+csv_to_json(filename)
