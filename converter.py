@@ -1,5 +1,6 @@
 import json
 import csv
+import argparse
 
 def json_to_csv(json_file):
 	with open(json_file, 'r') as jsonfile, open('output.csv', 'w', newline='') as csvfile:
@@ -21,6 +22,22 @@ def csv_to_json(csv_file):
 			jsn += [row]
 
 		json.dump(jsn, jsonfile)
-		
-filename = input('Enter filename of CSV file: ')
-csv_to_json(filename)
+
+def main():
+	parser = argparse.ArgumentParser()
+	parser.add_argument('inputtype', help='The type of input', type=str, choices=['csv', 'json'])
+	parser.add_argument('filename', help='Name of the input file', type=str)
+	args = parser.parse_args()
+
+	if (args.inputtype=='csv'):
+		csv_to_json(args.filename)
+		outputtype = 'json'
+	elif (args.inputtype=='json'):
+		json_to_csv(args.filename)
+		outputtype = 'csv'
+
+	print('[*] Output saved as output.{}'.format(outputtype))
+
+
+if __name__=='__main__':
+	main()
