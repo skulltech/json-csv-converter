@@ -1,6 +1,7 @@
 import json
 import csv
 import argparse
+import sys
 
 def json_to_csv(json_file):
 	with open(json_file, 'r') as jsonfile, open('output.csv', 'w', newline='') as csvfile:
@@ -30,10 +31,20 @@ def main():
 	args = parser.parse_args()
 
 	if (args.inputtype=='csv'):
-		csv_to_json(args.filename)
+		try:
+			csv_to_json(args.filename)
+		except FileNotFoundError:
+			print('[*] File not found! Exiting')
+			sys.exit()
 		outputtype = 'json'
+	
 	elif (args.inputtype=='json'):
-		json_to_csv(args.filename)
+		try:
+			json_to_csv(args.filename)
+		except FileNotFoundError:
+			print('[*] File not found! Exiting')
+			sys.exit()
+
 		outputtype = 'csv'
 
 	print('[*] Output saved as output.{}'.format(outputtype))
